@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<head>
+  <title>SC2Rep Batch</title>
+  
+  <script type="text/javascript" src="javascript/jquery-1.5.1.min.js"></script>
+  
+  <script type="text/javascript">
+    function getOptions() {
+      return $options;
+    }
+    
+    var $options = {
+      concurrency: 5
+    };
+    
+    $.extend($options, JSON.parse(localStorage.options || "{}"));
+
+    var $running = { "length": 0 };
+    var $queue = [];
+    var $window;
+
+    function createBatch(urls) {
+      if ($window == undefined) {
+        createWindow(function() {
+          enqueue(urls);
+        });
+      } else {
+        enqueue(urls);
+      }
+    }
+
+    function enqueue(urls) {
+      $queue = $queue.concat(urls);
+      processQueue();
+    }
+
+    function onTabComplete(tabId) {
+      var tab = $running[tabId];
+      if (tab) {
+        console.log("tab finished", tabId);
+        chrome.extension.sendRequest({method: 'monitor', event: 'tabRemoved', tab: tabId});
+        delete $running[tabId];
+        $running.length--;
+        console.log("running tabs", $running.length);
+        if (($running.length == 0) && ($queue.length == 0))
+          closeWindow();
+        processQueue();
+      }
+    }
+
+    function processQueue() {
+      if ($queue.length == 0)
+        return;
+
+      if ($running.length < $options.concurrency) {
+        var available = $options.concurrency - $running.length;
+        var possible = Math.min($queue.length, available);
+        for (var i = 0; i < possible; i++)
+          createTab($queue.shift());
+      }
+    }
+
+    function createWindow(cb) {
+      console.log("creating window");
+      chrome.windows.create({width: 700, height: 500, type: "normal", url: chrome.extension.getURL('monitor.html')},
+        function(window) {
+          $window = window;
+          if (cb)
+            cb.apply(this, arguments);
+        }
+      );
+    }
+
+    function closeWindow(cb) {
+      console.log("closing window");
+      chrome.windows.remove($window.id, function() {
+        if (cb)
+          cb.apply(this, arguments);
+      });
+    }
+
+    function createTab(url) {
+      if ($window == undefined)
+        return;
+
+      console.log("opening tab", url);
+      chrome.tabs.create({windowId: $window.id, selected: false, url: url}, function(tab) {
+        console.log("new tab", tab.id);
+        $running[tab.id] = tab;
+        chrome.extension.sendRequest({method: 'monitor', event: 'tabCreated', tab: tab});
+        $running.length++;
+        console.log("running tabs", $running.length);
+      });
+    }
+
+    chrome.extension.onRequest.addListener(
+      function(request, sender, sendResponse) {
+        switch (request.method) {
+          case 'batch':
+            createBatch(request.urls);
+            break;
+        }
+      }
+    );
+
+    chrome.tabs.onRemoved.addListener(
+      function(tabId, removeInfo) {
+        onTabComplete(tabId);
+      }
+    );
+    
+    chrome.tabs.onUpdated.addListener(
+      function(tabId, changeInfo, tab) {
+        if ($running[tabId])
+          console.log("tab updated", tabId, changeInfo);
+      }
+    );
+
+    chrome.windows.onRemoved.addListener(
+      function(windowId) {
+        if (($window != undefined) && ($window.id == windowId)) {
+          console.log("window was closed");
+          $window = undefined;
+        }
+      }
+    );
+  </script>
+</head>

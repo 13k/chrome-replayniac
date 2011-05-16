@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>SC2Rep Batch</title>
+
+  <script type="text/javascript" src="javascript/jquery-1.5.1.min.js"></script>
+
+  <script type="text/javascript">
+    var $options = chrome.extension.getBackgroundPage().getOptions();
+
+    function loadOptions() {
+      $("#concurrency").val($options.concurrency);
+    }
+
+    function saveOptions() {
+      $options.concurrency = $("#concurrency").val();
+      localStorage['options'] = JSON.stringify($options);
+    }
+
+    function say(msg) {
+      $("#notice").text(msg).fadeIn().delay(3000).fadeOut();
+    }
+
+    $(document).ready(function() {
+      loadOptions();
+
+      $("#options").submit(function(ev) {
+        ev.preventDefault();
+        saveOptions();
+        say("Options saved");
+      });
+    });
+  </script>
+</head>
+
+<body>
+
+<h3 id="notice" style="display: none;"></h3>
+
+<form id="options">
+  <fieldset>
+  <p>
+    <label for="concurrency">Maximum number of tabs open at the same time:</label>
+    <input type="text" size="5" name="concurrency" id="concurrency" value="5" />
+  </p>
+  <input type="submit" value="Save" />
+  </fieldset>
+</form>
+
+</body>
+</html>

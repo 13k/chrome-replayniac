@@ -1,0 +1,42 @@
+{
+  "name": "Replayniac",
+  "version": "0.1.3",
+  "description": "Download more Starcraft II replays than you can eat. Brought to you by So Many Replays! (tm)",
+
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+
+  "background_page": "background.html",
+  
+  "options_page": "options.html",
+  
+  "permissions": [
+    "tabs"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["http://www.sc2rep.com/*", "http://sc2rep.com/*"],
+      "js": ["javascript/jquery-1.5.1.min.js", "sites/sc2rep.com.js"]
+    },
+    {
+      "matches": ["http://www.gamereplays.org/starcraft2/*", "http://gamereplays.org/starcraft2/*"],
+      "js": ["javascript/jquery-1.5.1.min.js", "sites/gamereplays.org.js"]
+    },
+    {
+      "matches": ["http://sc2.replays.net/replay/*", "http://sc2.replays.net/replay/*"],
+      "js": ["javascript/jquery-1.5.1.min.js", "sites/replays.net.js"]
+    },
+    {
+      "matches": ["http://gosugamers.net/starcraft2/replays*", "http://www.gosugamers.net/starcraft2/replays*"],
+      "js": ["javascript/jquery-1.5.1.min.js", "sites/gosugamers.net.js"]
+    },
+    {
+      "matches": ["http://sc2-replays.net/*/replays*", "http://www.sc2-replays.net/*/replays*"],
+      "js": ["javascript/jquery-1.5.1.min.js", "sites/sc2-replays.net.js"]
+    }
+  ]
+}

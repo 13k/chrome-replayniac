@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>SC2Rep Batch</title>
+
+  <script type="text/javascript" src="javascript/jquery-1.5.1.min.js"></script>
+
+  <script type="text/javascript">
+    function TabList(selector) {
+      this.collection = {};
+      this.target = jQuery(selector);
+      this.list = jQuery("<ul></ul>");
+      this.target.append(this.list);
+
+      this.add = function(tab) {
+        console.log("adding item", tab.id);
+        var item = jQuery("<li></li>");
+        item.text(tab.url);
+        this.collection[tab.id] = item;
+        this.list.append(item);
+      };
+
+      this.remove = function(tabId) {
+        console.log("removing item", tabId);
+        var item = this.collection[tabId];
+        item.fadeOut();
+      };
+    }
+
+    jQuery(document).ready(function() {
+      $list = new TabList("#tab-list");
+    });
+
+    chrome.extension.onRequest.addListener(
+      function(request, sender, sendResponse) {
+        if (request.method != 'monitor')
+          return;
+
+        switch (request.event) {
+          case 'tabCreated':
+            $list.add(request.tab);
+            break;
+          case 'tabRemoved':
+            $list.remove(request.tab);
+            break;
+        }
+      }
+    );
+  </script>
+</head>
+
+<body>
+  <h1>Downloading ...</h1>
+  <hr/>
+  <div id="tab-list"></div>
+</body>
+</html>
