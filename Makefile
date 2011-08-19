@@ -11,3 +11,6 @@ release:
 	@mkdir -p $(RELEASE_DIR)
 	@zip -q -r $(RELEASE_FILE) $(RELEASE_FILES)
 	@echo $(RELEASE_FILE)
+
+clean:
+	rm -rf $(RELEASE_DIR)
