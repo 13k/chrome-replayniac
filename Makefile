@@ -13,4 +13,4 @@ release:
 	@echo $(RELEASE_FILE)
 
 clean:
-	rm -rf $(RELEASE_DIR)
+	rm -rf $(RELEASE_DIR)/*.zip
