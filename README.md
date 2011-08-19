@@ -1,6 +1,6 @@
 # OMG, that's So Many Replays(tm)!
 
-Replayniac will raise your Starcraft II replay hunger. And you will feed!
+Replayniac will raise your Starcraft II replay hunger. And you will eat!
 
 When navigating replay sites you ever thought "man, I wish I could download all
 these sick replays from this guy with a single click", while you actually
