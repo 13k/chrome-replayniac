@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
       this['data-onclick']();
   });
   // Adds button on footer nav to perform the batch downloading
-  $("#pager td:last").append("<a href='#' id='replayniac-download'>&#x21E9;</a>");
+  $("#replist tbody").append("<tr id='replayniac-lastrow' style='cursor: default'><td colspan='10' style='cursor: default; text-align: right'>Download selected</td><td><a href='#' id='replayniac-download'>&#x21E9;</a></td></tr>");
   // Event handler to toggle all checkboxes
   $("#replayniac-select_all").click(function(ev) {
     $(".replayniac-checkbox").attr('checked', $(this).is(':checked'));
