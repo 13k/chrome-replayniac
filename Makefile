@@ -9,7 +9,7 @@ RELEASE_FILE=$(RELEASE_DIR)/$(RELEASE_NAME)-$(RELEASE_VERSION).zip
 
 release:
 	@mkdir -p $(RELEASE_DIR)
-	@zip -q -r $(RELEASE_FILE) $(RELEASE_FILES)
+	@7z a -r -tzip $(RELEASE_FILE) $(RELEASE_FILES)
 	@echo $(RELEASE_FILE)
 
 clean:
