@@ -8,7 +8,7 @@ AJAX in pagination, search and... oh, wait, everywhere? Ahhh that's the stuff.
 ```
 {
   "matches": ["http://*.sc2replayed.com/replays/*", "http://sc2replayed.com/replays/*"],
-  "js": ["javascript/jquery-1.5.1.min.js", "sites/sc2replayed.com.js"]
+  "js": ["javascript/jquery.js", "sites/sc2replayed.com.js"]
 }
 ```
 
@@ -19,6 +19,6 @@ MLG
 ```
 {
   "matches": ["http://s3.majorleaguegaming.com/*"],
-  "js": ["javascript/jquery-1.5.1.min.js", "sites/mlg.js"]
+  "js": ["javascript/jquery.js", "sites/mlg.js"]
 }
 ```
