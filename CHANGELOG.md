@@ -2,6 +2,12 @@
 
 ## Changelog
 
+0.1.7
+-----
+
+ * Add Day9 TV (day9.tv/archive) site. Replayniac will only fetch the links of
+   the VODs and show them for the user to copy-paste elsewhere.
+
 0.1.6
 -----
 
