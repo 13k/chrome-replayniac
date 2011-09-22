@@ -41,6 +41,11 @@
     {
       "matches": ["http://*.battle.net/blizzcon/*/tournaments/*/matches/sc2/video-archive"],
       "js": ["javascript/jquery.js", "sites/blizzcon.js"]
+    },
+    {
+      "matches": ["http://day9.tv/archives/*"],
+      "js": ["javascript/jquery.js", "javascript/jquery-ui.js", "sites/day9.js"],
+      "css": ["stylesheet/jquery-ui.css"]
     }
   ]
 }
